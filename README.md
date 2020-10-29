@@ -3,6 +3,7 @@
 ## Overview
 
 gobake is a cli tool to generate a file to export environment values for Go.
+
 gobake sniffs your own project's GOPATH automatically and then creates a file to export your GOPATH.
 
 ## Build
