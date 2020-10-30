@@ -1,10 +1,9 @@
 package cmd
 
 import (
-	"errors"
 	"github.com/spf13/cobra"
+	"github.com/taisho6339/gobake/pkg"
 	"os"
-	"strings"
 	"text/template"
 )
 
@@ -21,16 +20,23 @@ type templateArgs struct {
 	GoPath string
 }
 
-func lookupGoPath() (string, error) {
-	wd, err := os.Getwd()
+func up() error {
+	path, err := pkg.LookupGoPath()
 	if err != nil {
-		return "", err
+		return err
 	}
-	dirs := strings.Split(wd, "/src/")
-	if len(dirs) < 2 {
-		return "", errors.New("current path is invalid")
+	file, err := os.Create(envFileName)
+	if err != nil {
+		return err
 	}
-	return dirs[0], nil
+	tl, err := template.New(envFileName).Parse(envTemplate)
+	if err != nil {
+		return err
+	}
+	if err := tl.Execute(file, templateArgs{GoPath: path}); err != nil {
+		return err
+	}
+	return nil
 }
 
 func Up() *cobra.Command {
@@ -38,22 +44,7 @@ func Up() *cobra.Command {
 		Use:   "up",
 		Short: "generate a file to export environments for Golang",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			path, err := lookupGoPath()
-			if err != nil {
-				return err
-			}
-			file, err := os.Create(envFileName)
-			if err != nil {
-				return err
-			}
-			tl, err := template.New(envFileName).Parse(envTemplate)
-			if err != nil {
-				return err
-			}
-			if err := tl.Execute(file, templateArgs{GoPath: path}); err != nil {
-				return err
-			}
-			return nil
+			return up()
 		},
 	}
 }

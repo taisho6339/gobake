@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/taisho6339/gobake/cmd"
+	"log"
 )
 
 var rootCmd = &cobra.Command{
@@ -12,7 +12,8 @@ var rootCmd = &cobra.Command{
 
 func main() {
 	rootCmd.AddCommand(cmd.Up())
+	rootCmd.AddCommand(cmd.App())
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err.Error())
+		log.Fatal(err)
 	}
 }
