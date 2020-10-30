@@ -2,9 +2,12 @@
 
 ## Overview
 
-gobake is a cli tool to generate a file to export environment values for Go.
+gobake is a cli tool to create directories for application and a file to export GO environment values.
 
-gobake sniffs your own project's GOPATH automatically and then creates a file to export your GOPATH.
+### Feature   
+
+- make directories for your application
+- sniff your own project's GOPATH automatically and then create a file to export it.
 
 ## Build
 
@@ -14,7 +17,14 @@ make build
 
 ## Usage
 
-### Generate an Env file for your project
+### Make directories for your application and Create a file to export your project's GOPATH
+
+```
+## You can run anywhere
+gobake app [author name] [app name] <flags>
+```
+
+### Only generate an env file for your project
 
 ```
 ## Run in the same folder as go.mod file
